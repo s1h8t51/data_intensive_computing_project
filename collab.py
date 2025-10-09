@@ -30,3 +30,16 @@ job_skills = pd.read_csv('./linkedin_dataset/job_skills.csv', nrows=100000)
 #print(job_summary.head())
 print(job_skills.head())
 
+#merge all there tables 
+job_data = job_postings.merge(job_skills.groupby('job_link')['job_skills'].apply(list).reset_index(), on='job_link', how='left')
+job_data['skill'] = job_data['job_skills'].apply(lambda x: x if isinstance(x, list) else [])
+
+
+#company has 1 missing value
+job_data['company'] = job_data['company'].fillna('Unknown')
+
+job_data['job_skills'] = job_data['job_skills'].apply(lambda x: x if isinstance(x, list) else [])
+
+
+
+
