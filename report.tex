@@ -1,0 +1,112 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Analyzing Global Job Market Trends and Skill Demands Using Big Data: A LinkedIn Jobs \& Skills 2024 Study}
+
+\author{
+\IEEEauthorblockN{Sahitya Gantala}
+\IEEEauthorblockA{\textit{Department of Computer Science} \\
+\textit{State University of New York at Buffalo}\\
+Buffalo, USA \\
+sahityag@buffalo.edu}
+\and
+\IEEEauthorblockN{Shilpa Ghosh}
+\IEEEauthorblockA{\textit{Department of Computer Science} \\
+\textit{State University of New York at Buffalo}\\
+Buffalo, USA \\
+}
+\and
+\IEEEauthorblockN{Aditya Rajesh Sawant}
+\IEEEauthorblockA{\textit{Department of Computer Science} \\
+\textit{State University of New York at Buffalo}\\
+Buffalo, USA \\
+}
+}
+
+\maketitle
+
+\begin{abstract}
+The 1.3M LinkedIn Jobs and Skills (2024) dataset offers a large-scale view of the global job market, capturing job postings, skill requirements, and related metadata. This study focuses on analyzing global employment trends, discovering the most in-demand skills, and understanding how job requirements vary across regions and industries. Using a Hadoop-based data pipeline, we ingest, clean, and analyze the dataset, implementing an end-to-end workflow for large-scale data processing. Through exploratory data analysis, we uncover relationships between job roles, associated skills, and locations. We further define machine learning tasks including job demand prediction, salary estimation, and clustering of job roles based on required skills. These insights can assist professionals, recruiters, and educators in understanding current skill dynamics and future workforce needs.
+\end{abstract}
+
+\begin{IEEEkeywords}
+LinkedIn, Big Data, Hadoop, Skills Analysis, Job Market, Machine Learning
+\end{IEEEkeywords}
+
+\section{Introduction}
+The modern job market is increasingly driven by digital platforms such as LinkedIn, which aggregate millions of job postings across various industries, regions, and experience levels. Understanding patterns within these postings provides significant insights into emerging skills, hiring trends, and global employment dynamics. The LinkedIn Jobs and Skills (2024) dataset, comprising approximately 1.3 million job postings, offers an unprecedented opportunity to study these patterns at scale. Each record in the dataset includes job titles, company names, locations, required skills, and other attributes that capture the evolving landscape of professional demand.
+
+The goal of this project is to develop a scalable big data pipeline capable of cleaning, processing, and analyzing this dataset. Using Hadoop’s distributed computing capabilities, we aim to perform efficient data ingestion and analysis. By conducting exploratory data analysis and defining machine learning problem statements, we seek to extract meaningful insights about the relationship between job roles and skills across different countries and sectors. The study also aims to explore how technologies like Hadoop and Pandas can be integrated for efficient big data analytics workflows.
+
+\section{Dataset Description and Cleaning}
+The dataset used in this project was sourced from Kaggle’s 1.3M LinkedIn Jobs and Skills (2024) repository. It contains job postings scraped from LinkedIn, with details such as job title, company, location, job description, and a list of required skills. In its raw form, the data exhibits inconsistencies typical of web-scraped sources, including missing values, duplicate records, inconsistent country codes, and irregular text formatting.
+
+Data cleaning was therefore a crucial preprocessing step. We removed duplicate job postings and filtered out records lacking essential fields such as job title or skills. Missing locations and companies were imputed or flagged as unknown. Text-based columns were normalized by converting to lowercase and removing punctuation and special characters. The skills field, originally a string, was tokenized into lists of individual skills for analytical processing. Location names were standardized by unifying representations such as “US,” “U.S.A.,” and “United States.” After these preprocessing steps, the dataset was ready for exploratory data analysis and subsequent machine learning applications.
+
+\section{Exploratory Data Analysis (EDA)}
+Exploratory Data Analysis was performed using Pandas and Matplotlib to uncover the underlying structure of the dataset. The cleaned data revealed over one million unique job postings spanning multiple countries and industries. Descriptive statistics showed significant variation in the number of skills required per job posting, with some roles listing as few as two skills while others required over fifteen.
+
+Visual analysis indicated that technical domains, particularly software development, data science, and cloud computing, dominate the dataset. The most frequently occurring skills included Python, SQL, Machine Learning, Communication, and Project Management. Geographic analysis revealed that the United States, India, and the United Kingdom accounted for the majority of postings, reflecting both population size and digital job adoption rates.
+
+Heatmaps and bar plots were generated to compare skill demand across regions and job categories. For example, postings labeled “Data Scientist” often overlapped with “Machine Learning Engineer” roles based on shared skills such as Python and TensorFlow. The EDA also revealed that non-technical skills like Leadership and Teamwork appeared consistently across industries, highlighting the growing importance of hybrid technical–soft skill profiles.
+
+\section{Machine Learning Problem Formulation}
+This project defines three machine learning tasks based on the dataset’s structure and objectives. The first problem focuses on job demand prediction, where the goal is to classify job roles as “high demand” or “low demand” based on skill combinations, location, and job title frequency. This classification can help identify emerging roles in technology and management.
+
+The second problem focuses on salary estimation, where regression techniques will be applied to estimate a salary range given the job title, required skills, and geographic region. Although salary information is not explicitly available, proxy features such as seniority level, location, and company profile can be leveraged to approximate pay scales.
+
+The third problem explores clustering of job titles based on skill similarity, aiming to discover natural groupings of job roles. This unsupervised learning task helps identify overlapping job functions (for example, Data Analyst and Business Intelligence Engineer) and provides insights into cross-domain skill transferability.
+
+\section{Data Analysis Objectives}
+The project outlines six analytical objectives aligned with the machine learning tasks. The first objective is to identify the most in-demand technical and soft skills globally and regionally, providing insight into how skill trends differ by location. The second objective focuses on analyzing the correlation between the number of skills listed and job seniority or estimated compensation, helping understand the relationship between multi-skilled roles and potential salary.
+
+The third objective is to measure the degree of skill overlap between different job categories, quantifying similarity using cosine distance or Jaccard index. The fourth objective explores regional specialization, identifying which countries emphasize certain skill clusters (for example, cloud computing in the U.S. versus data analytics in India). The fifth objective aims to evaluate emerging job clusters formed via unsupervised learning, and the sixth involves visualizing the evolution of skill categories across industries, such as the rise of artificial
+
+\section{\textbf{Hadoop Setup and Data Ingestion}}
+The Hadoop cluster was configured using a pseudo-distributed Docker-based setup. After installing Java and Hadoop, the dataset was imported into the Hadoop Distributed File System (HDFS) using standard commands. The cluster was initialized by formatting the NameNode and starting the HDFS daemons (start-dfs.sh and start-yarn.sh). The dataset file, in CSV format, was uploaded to HDFS using the following command:
+The ingestion was verified using hdfs dfs -ls /linkedinjobs, confirming the file’s successful transfer. This enabled distributed access to the data across the Hadoop ecosystem. Future processing steps may involve MapReduce jobs to tokenize and count skill frequencies or Spark-based dataframes for distributed transformations. The ingestion pipeline ensures scalability, fault tolerance, and data availability for subsequent analytical stages.
+
+\section{\textbf{Results and Observations}}
+The cleaning and EDA stages provided several meaningful insights. The dataset revealed that technology-related roles dominate the global job market, with “Software Engineer” and “Data Scientist” emerging as the most common titles. Skills such as Python, SQL, and project management consistently appear across industries, reinforcing the universal demand for technical and analytical proficiency. The data also indicated strong geographic concentration, with most postings from North America, India, and Western Europe.
+Preliminary model exploration showed that clustering based on skill similarity effectively grouped job titles into interpretable categories, such as “data and analytics,” “software engineering,” and “business management.” The analysis also revealed that jobs requiring a combination of technical and interpersonal skills tend to appear in higher-salary or leadership roles. These findings emphasize the growing need for multidisciplinary professionals who can bridge technology and communication skills.
+
+
+\section{\textbf{Conclusion and Future Work}}
+This phase of the project successfully established an end-to-end big data pipeline to handle the LinkedIn Jobs and Skills dataset, including ingestion, cleaning, and initial analysis. The findings demonstrate that LinkedIn job data provides valuable insights into the global labor market and the evolution of professional skills. Hadoop’s distributed environment proved effective for managing large datasets, and Pandas-based EDA highlighted the most influential variables for subsequent modeling.
+Future work will focus on refining machine learning models for prediction and clustering, integrating temporal analysis to examine how skill demands evolve over time, and developing interactive dashboards for visual analytics. Additional improvements may include extending the dataset with salary information from complementary sources and applying natural language processing techniques to extract deeper insights from job descriptions.
+
+%\subsection{Template Styles}
+\begin{thebibliography}{00}
+
+\bibitem{linkedin}
+A. Asaniczka, “1.3M LinkedIn Jobs and Skills (2024),” \textit{Kaggle Dataset}, 2024. [Online]. Available: \url{https://www.kaggle.com/datasets/asaniczka/1-3m-linkedin-jobs-and-skills-2024}
+
+\bibitem{hadoop}
+Apache Software Foundation, “Hadoop: Open-Source Distributed Computing Framework,” 2024. [Online]. Available: \url{https://hadoop.apache.org/}
+
+\bibitem{pandas}
+W. McKinney, \textit{Data Analysis with Pandas}. O’Reilly Media, 2022.
+
+\bibitem{han}
+J. Han, M. Kamber, and J. Pei, \textit{Data Mining: Concepts and Techniques}. Morgan Kaufmann, 2012.
+
+\bibitem{spark}
+M. Zaharia \textit{et al.}, “Apache Spark: Cluster Computing with Working Sets,” in \textit{USENIX HotCloud}, 2012.
+
+\end{thebibliography}
+
+
+\end{document}
+
