@@ -1,0 +1,6 @@
+hadoop/namenode
+hadoop/datanode1
+hadoop/datanode2
+
+dcup.ps1
+dcdn.ps1
