@@ -1,6 +1,8 @@
 hadoop/namenode
 hadoop/datanode1
 hadoop/datanode2
+hadoop/kaggle.json
+hadoop/dataset
 
 dcup.ps1
 dcdn.ps1
