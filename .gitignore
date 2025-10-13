@@ -6,3 +6,10 @@ hadoop/dataset
 
 dcup.ps1
 dcdn.ps1
+
+*.gz
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out

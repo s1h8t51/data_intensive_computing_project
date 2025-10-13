@@ -8,6 +8,7 @@
 \usepackage{xcolor}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{float}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
@@ -90,12 +91,12 @@ The third objective is to measure the degree of skill overlap between different 
 
 \section{\textbf{Hadoop Cluster Setup and Data Ingestion}}
 A pseudo-distributed Hadoop cluster was meticulously configured using Docker to provide a robust and scalable environment for big data processing. The setup comprised a central \textbf{NameNode} and two \textbf{DataNodes}, all running the \texttt{apache/hadoop:3.4.1} image. A custom \texttt{docker-compose.yml} file orchestrated these services, establishing a dedicated bridge network with a subnet of \texttt{172.30.0.0/24} to ensure seamless container communication. The NameNode, with its hostname \texttt{namenode} and IP address \texttt{172.30.0.2}, was configured to expose the web UI on port \texttt{9870} and was responsible for managing the filesystem metadata. Each DataNode (\texttt{datanode1} and \texttt{datanode2}) was assigned its own IP address (\texttt{172.30.0.3} and \texttt{172.30.0.4}, respectively) and depended on the NameNode for initialization.
-\begin{figure}
+\begin{figure*}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{ih.jpeg}
+    \includegraphics[width=\textwidth]{ih.jpeg}
     \caption{Hadoop cluster setup and Data Ingestion}
     \label{fig:placeholder}
-\end{figure}
+\end{figure*}
 
 Figure~\ref{fig:placeholder} For data ingestion, a PowerShell script was developed to automate the process of downloading and uploading a large Kaggle dataset, specifically \textit{asaniczka/1-3m-linkedin-jobs-and-skills-2024}, into the Hadoop Distributed File System (HDFS). The script first checked for the presence of the dataset locally; if not found, it used the Kaggle CLI to download and unzip the data into a temporary directory. Subsequently, it iterated through each CSV file in the downloaded dataset, performing a two-step transfer. First, it used \texttt{docker cp} to copy each file from the local machine into the NameNode container's temporary directory. Second, it executed the \texttt{hdfs dfs -put} command from within the container to move the files into the designated HDFS path, \texttt{/user/data/linkedin-jobs-and-skills-2024}. This methodical approach ensured a smooth and reliable transfer of all data. Final verification was performed by listing the contents of the HDFS directory with \texttt{hdfs dfs -ls}, confirming the successful ingestion of all files. The local temporary files were then cleaned up to conclude the process. This automated workflow streamlined the setup and data loading, providing a solid foundation for subsequent data processing and analysis tasks.
 
@@ -107,7 +108,7 @@ Figure~\ref{fig:joblevel} illustrates the distribution of job levels across the 
 
 \begin{figure}[htbp]
 \centering
-    \includegraphics[width=0.5\linewidth]{joblevels.jpeg}
+    \includegraphics[width=\linewidth]{joblevels.jpeg}
 \caption{Distribution of job levels across LinkedIn postings.}
 \label{fig:joblevel}
 \end{figure}
@@ -118,7 +119,7 @@ Figure~\ref{fig:companies} highlights the top companies contributing to the larg
 
 \begin{figure}[htbp]
  \centering
-    \includegraphics[width=0.5\linewidth]{job_type_distribution.png}
+    \includegraphics[width=\linewidth]{job_type_distribution.png}
     
 \caption{Top companies by number of job postings.}
 \label{fig:companies}
@@ -130,7 +131,7 @@ As shown in Figure~\ref{fig:jobtype}, full-time employment was overwhelmingly do
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\linewidth]{fig 1.jpeg}
+    \includegraphics[width=\linewidth]{fig 1.jpeg}
     \caption{Distribution of job types (full-time, hybrid, remote, contract).}
 \label{fig:jobtype}
 \end{figure}
@@ -141,7 +142,7 @@ Figure~\ref{fig:locations} presents the top ten global cities with the highest j
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\linewidth]{joblocations.jpeg}
+    \includegraphics[width=\linewidth]{joblocations.jpeg}
 \caption{Top global job locations based on posting frequency.}
 \label{fig:locations}
 \end{figure}
