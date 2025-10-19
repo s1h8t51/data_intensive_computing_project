@@ -58,7 +58,7 @@ The work presented here is aligned with six primary analytical objectives. By co
 
 
 \section{Dataset Description and Cleaning}
-The dataset used in this study was obtained from Kaggle’s “1.3M Linked-In Jobs and Skills (2024)” repository, which compiles over 1.3 million Linked-In job postings across multiple industries and countries. The data is organized into three relational tables \textit{job\_postings}, \textit{job\_skills}, and \textit{job\_summary} linked by a common key, \textit{job\_link}. Each table provides complementary information necessary for a comprehensive view of job roles, associated skills, and textual descriptions.
+The dataset used in this study was obtained from Kaggle's “1.3M Linked-In Jobs and Skills (2024)” repository, which compiles over 1.3 million Linked-In job postings across multiple industries and countries. The data is organized into three relational tables \textit{job\_postings}, \textit{job\_skills}, and \textit{job\_summary} linked by a common key, \textit{job\_link}. Each table provides complementary information necessary for a comprehensive view of job roles, associated skills, and textual descriptions.
 
 The \textbf{job\_postings} table serves as the primary dataset, containing core job-related information such as job titles, company names, job locations, employment types, seniority levels, and geographic metadata (city and country). It provides the structural foundation for linking with other tables and enables aggregation of postings by region or job type.
 
@@ -100,8 +100,11 @@ A pseudo-distributed Hadoop cluster was meticulously configured using Docker to 
 
 Figure~\ref{fig:placeholder} For data ingestion, a PowerShell script was developed to automate the process of downloading and uploading a large Kaggle dataset, specifically \textit{asaniczka/1-3m-linkedin-jobs-and-skills-2024}, into the Hadoop Distributed File System (HDFS). The script first checked for the presence of the dataset locally; if not found, it used the Kaggle CLI to download and unzip the data into a temporary directory. Subsequently, it iterated through each CSV file in the downloaded dataset, performing a two-step transfer. First, it used \texttt{docker cp} to copy each file from the local machine into the NameNode container's temporary directory. Second, it executed the \texttt{hdfs dfs -put} command from within the container to move the files into the designated HDFS path, \texttt{/user/data/linkedin-jobs-and-skills-2024}. This methodical approach ensured a smooth and reliable transfer of all data. Final verification was performed by listing the contents of the HDFS directory with \texttt{hdfs dfs -ls}, confirming the successful ingestion of all files. The local temporary files were then cleaned up to conclude the process. This automated workflow streamlined the setup and data loading, providing a solid foundation for subsequent data processing and analysis tasks.
 
+The reason we have an PowerShell script instead of a bash script is because of the docker image has an older version of CentOS, precisely 6.
+This particular image also doesn't include python, unzip and Kaggle applications. We tried to install these dependencies via \texttt{yum} but the mirror links were not configured correctly as the OS version is quite old. We again tried to setup correct mirror links but still no luck. We could have still achieved a bash script but this wouldn't have been a true automated ingestion. Hence we came up with PowerShell script.
+
 \section{\textbf{Results and Observations}}
-The exploratory phase produced several meaningful insights about the global job market using LinkedIn’s 2024 dataset. The analysis combined frequency distributions, categorical summaries, and data visualizations to interpret hiring patterns across industries, job levels, and geographic regions. The following key observations were derived from the four main visualizations produced during EDA.
+The exploratory phase produced several meaningful insights about the global job market using LinkedIn's 2024 dataset. The analysis combined frequency distributions, categorical summaries, and data visualizations to interpret hiring patterns across industries, job levels, and geographic regions. The following key observations were derived from the four main visualizations produced during EDA.
 
 \subsection{Job Level Distribution}
 Figure~\ref{fig:joblevel} illustrates the distribution of job levels across the dataset. The majority of postings belonged to mid-level and senior-level categories, indicating that companies are primarily hiring for roles that require prior experience. Entry-level and internship positions were less frequent, suggesting a competitive early-career environment. This pattern emphasizes the rising demand for experienced professionals in both technical and managerial domains.
@@ -157,7 +160,7 @@ This Phase 1 project successfully build a scalable big data framework to analyze
 
 Building upon these foundations, the next phase of this project will focus on achieving six analytical and machine learning objectives. These include: identifying global and regional skill trends, analyzing correlations between skills and job seniority, quantifying job similarity through skill overlap metrics, exploring regional specialization in skill sets, forming job clusters using unsupervised learning, and visualizing evolving skill categories across industries. Phase 2 will therefore shift from data preparation to advanced analytics, clustering, and predictive modeling, further leveraging the Hadoop ecosystem and machine learning tools.  
 
-Overall, this phase demonstrated that LinkedIn’s large-scale job data can provide rich insights into employment structures and skill dynamics. The established data pipeline ensures scalability and reproducibility for subsequent analytical phases, laying a strong foundation for predictive and visual intelligence on global workforce trends.
+Overall, this phase demonstrated that LinkedIn's large-scale job data can provide rich insights into employment structures and skill dynamics. The established data pipeline ensures scalability and reproducibility for subsequent analytical phases, laying a strong foundation for predictive and visual intelligence on global workforce trends.
 
 
 
@@ -170,7 +173,7 @@ A. Asaniczka, “1.3M LinkedIn Jobs and Skills (2024),” \textit{Kaggle Dataset
 Apache Software Foundation, “Hadoop: Open-Source Distributed Computing Framework,” 2024. [Online]. Available: \url{https://hadoop.apache.org/}
 
 \bibitem{pandas}
-W. McKinney, \textit{Data Analysis with Pandas}. O’Reilly Media, 2022.
+W. McKinney, \textit{Data Analysis with Pandas}. O'Reilly Media, 2022.
 
 
 
