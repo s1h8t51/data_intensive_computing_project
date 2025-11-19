@@ -3,6 +3,7 @@ hadoop/datanode1
 hadoop/datanode2
 hadoop/kaggle.json
 hadoop/dataset
+linkedin_dataset
 
 dcup.ps1
 dcdn.ps1
