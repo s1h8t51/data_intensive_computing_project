@@ -14,4 +14,4 @@ dcdn.ps1
 *.fls
 *.log
 *.out
-temp_job_skills.parquet
+*.parquet
